@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>金刚区 - 易维讯</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 1px;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 功能卡片 */
+        .feature-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 16px;
+            padding: 8%;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* 标签页导航样式 */
+        .tab-navigation {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-button {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-button.active:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        /* 标签页内容样式 */
+        .tab-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 内部标签导航样式 */
+        .inner-tab-nav {
+            display: flex;
+            gap: 8px;
+            margin: 16px 0;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 内部标签内容样式 */
+        .inner-tab-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .inner-tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .inner-tab-panel.active {
+            display: block;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 响应式设计 - 图片 */
+        @media (max-width: 768px) {
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-image {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .tab-navigation {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                -webkit-overflow-scrolling: touch;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: none;
+                margin-bottom: 12px;
+            }
+
+            .tab-button {
+                flex: 0 0 auto;
+                min-width: 100px;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
+
+            /* 内部标签导航响应式 */
+            .inner-tab-nav {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                -webkit-overflow-scrolling: touch;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: none;
+                margin: 12px 0;
+            }
+
+            /* 隐藏滚动条 */
+            .tab-navigation::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-navigation {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .inner-tab-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .inner-tab-nav {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+
+        /* 区块样式 */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="diamond-zone-page">
+        <h1 class="page-title">金刚区</h1>
+        <div class="section">
+            <div class="feature-card">
+                <p>金刚区是易维讯APP的核心功能区域，包含论坛天地、易知识、积分商城、问卷调研等多个功能模块。</p>
+                <div class="tab-navigation">
+                    <button class="tab-button active" data-tab="forum">论坛天地</button>
+                    <button class="tab-button" data-tab="knowledge">易知识</button>
+                    <button class="tab-button" data-tab="points-mall">积分商城</button>
+                    <button class="tab-button" data-tab="other">其他</button>
+                </div>
+                <div class="tab-content">
+                    <div id="forum" class="tab-panel active">
+                        <div class="inner-tab-nav">
+                            <button class="tab-button active" data-tab="forum-publish">发布</button>
+                            <button class="tab-button" data-tab="forum-interact">互动</button>
+                            <button class="tab-button" data-tab="forum-home">主页</button>
+                        </div>
+                        <div class="inner-tab-content">
+                            <div id="forum-publish" class="inner-tab-panel active">
+                                <p>发布功能允许用户在论坛天地中创建新的帖子，分享自己的经验、见解和问题。用户可以选择不同的版块进行发布，如侃天说地、微挖说、我是设计师、三一钢铁侠等。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_1.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_2.png" alt="查看工况反馈2" class="gallery-image">
+                                </div>
+                                <p>发布帖子时，用户可以添加文字、图片、视频等内容，使帖子更加丰富和生动。发布后，其他用户可以查看、评论和分享帖子。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_3.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_4.png" alt="查看工况反馈2" class="gallery-image">
+                                </div>
+                                <p>用户可以通过发布帖子参加三一官方活动，用户可以根据自己的兴趣自行选择喜欢的活动。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_4_1.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_4_2.png" alt="查看工况反馈2" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="forum-interact" class="inner-tab-panel">
+                                <p>互动功能允许用户与其他工程机械从业者进行交流和互动。用户可以评论、点赞、分享其他用户的帖子。</p>
+                                <p>进入帖子详情，可以查看其他人评论，可以发表评论以及关注用户。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_5.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_5_1.png" alt="查看工况反馈2" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="forum-home" class="inner-tab-panel">
+                                <p>论坛天地主页内可以通过关注、收藏、我的发帖等按钮，查看用户关注的用户、收藏的帖子、自己发布的帖子等。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_6_2.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_6.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_6_1.png" alt="查看工况反馈2" class="gallery-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="knowledge" class="tab-panel">
+                        <h3>易知识</h3>
+                        <p>易知识是易维讯APP的知识库，包含工程机械行业的专业知识、技术文档、操作指南等内容。</p>
+                        <p>用户可以通过易知识学习设备操作、维护保养、故障排除等知识，提升专业技能和业务能力。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/home/dia_zone/dia_zone_7.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/home/dia_zone/dia_zone_7_1.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/home/dia_zone/dia_zone_7_2.png" alt="查看工况反馈2" class="gallery-image">
+                        </div>
+                        <p>用户可以通过右上角筛选功能，查找相关视频。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/home/dia_zone/dia_zone_7_3.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/home/dia_zone/dia_zone_7_4.png" alt="查看工况反馈1" class="gallery-image">
+                        </div>
+                    </div>
+                    <div id="points-mall" class="tab-panel">
+                        <p>积分商城是易维讯APP的奖励系统，用户可以通过完成任务、参与活动等方式获得积分，并用积分兑换各种礼品。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/home/dia_zone/dia_zone_8.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/home/dia_zone/dia_zone_8_1.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/home/dia_zone/dia_zone_8_2.png" alt="查看工况反馈2" class="gallery-image">
+                        </div>
+                    </div>
+                    <div id="other" class="tab-panel">
+                        <div class="inner-tab-nav">
+                            <button class="tab-button active" data-tab="other-survey">问卷调研</button>
+                            <button class="tab-button" data-tab="other-micro-excavator">微挖</button>
+                            <button class="tab-button" data-tab="other-used-equipment">设备估价</button>
+                            <button class="tab-button" data-tab="other-equipment-job">设备找活</button>
+                            <button class="tab-button" data-tab="other-customer-acquisition">天天获客</button>
+                            <button class="tab-button" data-tab="other-sany-news">三一发布</button>
+                            <button class="tab-button" data-tab="other-rental-platform">出租平台</button>
+                            <button class="tab-button" data-tab="other-repair-factory">大修厂</button>
+                            <button class="tab-button" data-tab="other-service-assistant">服务助手</button>
+                            <button class="tab-button" data-tab="other-parts-express">配件通</button>
+                        </div>
+                        <div class="inner-tab-content">
+                            <div id="other-survey" class="inner-tab-panel active">
+                                <p>问卷调研功能允许用户参与易维讯APP发起的各种调研活动，分享自己的意见和建议。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_9.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_9_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-micro-excavator" class="inner-tab-panel">
+                                <p>用户可以在这里查看和咨询微挖设备的相关信息和问题，也可以通过“微挖”小程序进行订购。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_10.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_10_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-used-equipment" class="inner-tab-panel">
+                                <p>用户可以在这里发布二手设备的出售信息，也可以浏览和购买其他用户发布的二手设备。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_11_2.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_11_3.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-equipment-job" class="inner-tab-panel">
+                                <p>设备找活功能帮助用户为自己的工程机械寻找施工任务。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_12.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_12_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-customer-acquisition" class="inner-tab-panel">
+                                <p>天天获客功能为用户提供不同型号设备的介绍视频，也可以通过线上下单订购设备。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_13.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_13_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-sany-news" class="inner-tab-panel">
+                                <p>三一发布功能为用户提供三一设备的相关技术手册、操作手册、学习文件、故障码查询等功能。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_14.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_14_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-rental-platform" class="inner-tab-panel">
+                                <p>出租平台功能为用户提供工程机械的租赁信息。</p>
+                                <p>设备拥有者可以发布设备出租信息，需要设备的用户可以浏览和租用设备，也可以发布需要的设备信息等。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_15.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_15_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-repair-factory" class="inner-tab-panel">
+                                <p>大修厂功能为用户提供专业的工程机械大修服务。</p>
+                                <p>用户可以在这里查找附近的大修厂，预约大修服务，跟踪大修进度，确保设备得到专业的维修和保养。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_16.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_16_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-service-assistant" class="inner-tab-panel">
+                                <p>服务助手功能为用户提供工程机械的服务支持，用户可以通过服务助手查看各种资料，包括历史保养、排故流程、保养提醒等信息。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_17.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_17_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                            <div id="other-parts-express" class="inner-tab-panel">
+                                <p>配件通功能为用户提供工程机械不同配件的参数，型号的查询服务。</p>
+                                <div class="image-gallery">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_18.png" alt="查看工况反馈1" class="gallery-image">
+                                    <img src="../assets/images/home/dia_zone/dia_zone_18_1.png" alt="查看工况反馈1" class="gallery-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 设置标签页切换功能
+        function setupTabs() {
+            // 外部标签页切换功能
+            const outerTabs = document.querySelectorAll('.tab-navigation .tab-button');
+            
+            outerTabs.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有外部标签按钮的active类
+                    outerTabs.forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 获取目标标签页ID
+                    const targetTab = button.getAttribute('data-tab');
+                    
+                    // 移除所有外部标签面板的active类
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    
+                    // 为目标标签页添加active类
+                    const targetPanel = document.getElementById(targetTab);
+                    
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                        
+                        // 激活内部标签页的第一个标签
+                        const innerTabNav = targetPanel.querySelector('.inner-tab-nav');
+                        
+                        if (innerTabNav) {
+                            // 移除所有内部标签按钮的active类
+                            innerTabNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                            
+                            // 激活第一个内部标签按钮
+                            const firstInnerTab = innerTabNav.querySelector('.tab-button');
+                            
+                            if (firstInnerTab) {
+                                firstInnerTab.classList.add('active');
+                                
+                                // 移除所有内部标签面板的active类
+                                document.querySelectorAll('.inner-tab-panel').forEach(panel => panel.classList.remove('active'));
+                                
+                                // 激活第一个内部标签面板
+                                const firstInnerPanelId = firstInnerTab.getAttribute('data-tab');
+                                const firstInnerPanel = document.getElementById(firstInnerPanelId);
+                                
+                                if (firstInnerPanel) {
+                                    firstInnerPanel.classList.add('active');
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // 内部标签页切换功能
+            const innerTabs = document.querySelectorAll('.inner-tab-nav .tab-button');
+            
+            innerTabs.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除同一内部标签导航中所有按钮的active类
+                    const innerTabNav = button.closest('.inner-tab-nav');
+                    innerTabNav.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 获取目标标签页ID
+                    const targetTab = button.getAttribute('data-tab');
+                    // 移除所有内部标签面板的active类
+                    document.querySelectorAll('.inner-tab-panel').forEach(panel => panel.classList.remove('active'));
+                    // 为目标标签页添加active类
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // 页面加载完成后设置标签页功能
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTabs();
+        });
+    </script>
+</body>
+</html>

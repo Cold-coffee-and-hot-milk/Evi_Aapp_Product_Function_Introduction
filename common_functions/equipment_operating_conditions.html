@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>设备工况 - 易维讯</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 区块样式 */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* 标签页导航样式 */
+        .tab-navigation {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 内部页签导航样式（8个页签，分两排显示） */
+        .inner-tab-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .tab-button {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-button.active:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        /* 标签页内容样式 */
+        .tab-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 功能卡片样式 */
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 8%;
+            margin-top: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .feature-card p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        /* 步骤样式 */
+        .step-container {
+            margin-bottom: 24px;
+        }
+
+        .step-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 功能列表 */
+        .feature-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .feature-list li {
+            margin-bottom: 12px;
+            padding-left: 0;
+            position: relative;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+
+            .tab-navigation {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                -webkit-overflow-scrolling: touch;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: none;
+                margin-bottom: 12px;
+            }
+
+            .tab-button {
+                flex: 0 0 auto;
+                min-width: 100px;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
+
+            /* 隐藏滚动条 */
+            .tab-navigation::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-navigation {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            /* 移动端内部页签导航样式 */
+            .inner-tab-nav {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-image {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">设备工况</h1>
+    <div class="section">
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="step1">查看方法</button>
+            <button class="tab-button" data-tab="step2">模糊查询</button>
+            <button class="tab-button" data-tab="step3">工况介绍</button>
+        </div>
+        <div class="tab-content">
+            <div id="step1" class="tab-panel active">
+                <div class="feature-card">
+                    <h3>查看设备工况</h3>
+                    <p>用户可以通过以下步骤查看设备工况：</p>
+                    <ol class="feature-list" style="list-style-type: decimal; padding-left: 30px;">
+                        <li>打开易维讯app，进入首页，找到"我的设备"模块，点击查看设备列表</li>
+                        <li>选择需要查看的设备，点击设备进入工况详情页</li>
+                        <!-- 查看设备工况步骤照片 -->
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_1_d.png" alt="查看设备工况步骤1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_2_d.png" alt="查看设备工况步骤2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_3_d.png" alt="查看设备工况步骤3" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_4_d.png" alt="查看设备工况步骤4" class="gallery-image">
+                        </div>
+                    </ol>
+                </div>
+            </div>
+            <div id="step2" class="tab-panel">
+                <div class="feature-card">
+                    <h3>搜索设备</h3>
+                    <p>用户可以通过模糊查询功能快速找到目标设备：</p>
+                    <ol class="feature-list" style="list-style-type: decimal; padding-left: 30px;">
+                        <li>若用户设备较多，可利用模糊查询搜索设备</li>
+                        <li>点击设备列表页右上角搜索按钮，输入部分设备编号，进行搜索</li>
+                        <li>点击该设备进入工况详情页，即可查看该设备工况</li>
+                        <!-- 查看设备工况步骤照片 -->
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_7_d.png" alt="查看设备工况步骤1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_5_d.png" alt="查看设备工况步骤2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_6_d.png" alt="查看设备工况步骤3" class="gallery-image">
+                        </div>
+                    </ol>
+                </div>
+            </div>
+            <div id="step3" class="tab-panel">
+                <!-- 工况介绍内部页签导航 -->
+                <div class="tab-navigation inner-tab-nav">
+                    <button class="tab-button active" data-tab="live-data">实况数据</button>
+                    <button class="tab-button" data-tab="historical-data">历史数据</button>
+                    <button class="tab-button" data-tab="fuel-report">油耗报表</button>
+                    <button class="tab-button" data-tab="nearby-services">附近服务</button>
+                    <button class="tab-button" data-tab="user-calendar">用户日历</button>
+                    <button class="tab-button" data-tab="condition-feedback">工况反馈</button>
+                    <button class="tab-button" data-tab="equipment-manual">设备手册</button>
+                    <button class="tab-button" data-tab="other-functions">其他功能</button>
+                </div>
+                
+                <!-- 实况数据页签内容 -->
+                <div class="inner-tab-panel" id="live-data">
+                    <div class="feature-card">
+                        <h3>实况数据</h3>
+                        <p>实时监控设备的运行状态，包括位置、工作时长、油耗、水温等关键参数，随时掌握设备的实时情况。</p>
+                        <ul class="feature-list">
+                            <li>实时定位：精确显示设备当前位置</li>
+                            <li>工作时长：记录设备累计工作时间</li>
+                            <li>油耗监测：实时监控燃油消耗情况</li>
+                            <li>水温监控：防止设备过热</li>
+                            <li>开工工时：记录设备当天的工作的时间</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_4_d.png" alt="查看设备工况步骤4" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 历史数据页签内容 -->
+                <div class="inner-tab-panel" id="historical-data">
+                    <div class="feature-card">
+                        <h3>历史数据</h3>
+                        <ul class="feature-list">
+                            <li>系统会保留设备运行历史数据，方便您更好地了解设备性能和使用情况。</li>
+                            <li>点击设备工况页面下方的“工时报表”进入历史工况数据页面。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_8_d.png" alt="查看历史数据1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_11_d.png" alt="查看历史数据2" class="gallery-image">
+                        </div>
+                        <ul class="feature-list">
+                            <li>进入历史工况数据默认为“周报”，您可通过点击上方“日报”、“月报”来切换查看维度，也可通过月报内（或通过顶部日期选项）点击具体某一天来查看天数据。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_9_d.png" alt="查看历史数据3" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_10_d.png" alt="查看历史数据4" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 油耗报表页签内容 -->
+                <div class="inner-tab-panel" id="fuel-report">
+                    <div class="feature-card">
+                        <h3>燃油消耗数据</h3>
+                        <p>系统会对设备的燃油消耗进行统计，生成油耗报表，帮助您了解设备的燃油使用情况和优化空间。</p>
+                        <ul class="feature-list">
+                            <li>您可以在“设备工况”下的“油耗报表”进行查看，可以通过顶部选项（日报、周报、月报、半年报、年报）选择查看您想看的维度。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_12_d.png" alt="查看燃油消耗数据1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_13_d.png" alt="查看燃油消耗数据2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_14_d.png" alt="查看燃油消耗数据3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 附近服务页签内容 -->
+                <div class="inner-tab-panel" id="nearby-services">
+                    <div class="feature-card">
+                        <h3>附近服务网点</h3>
+                        <p>您可以查看当前设备附近的服务网点，快速获取维修、保养等服务支持。</p>
+                        <ul class="feature-list">
+                            <li>您可以在“设备工况”下的“附近服务”获取附近服务网点信息。</li>
+                            <li>服务网点查询：查看附近的服务网点位置</li>
+                            <li>服务预约：可通过服务网点电话在线预约维修、保养服务</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_15_d.png" alt="查看附近服务网点1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_16_d.png" alt="查看附近服务网点2" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 用户日历页签内容 -->
+                <div class="inner-tab-panel" id="user-calendar">
+                    <div class="feature-card">
+                        <h3>个人日程管理</h3>
+                        <p>您可以通过日历功能为每台设备添加相关的重要事件。</p>
+                        <ul class="feature-list">
+                            <li>您可以在“设备工况”下的“用户日历”查看和管理设备相关重要事件，也可通过日历选择历史事件进行查看。</li>
+                            <li>您可以通过点击“用户日历”下方设备编号右侧的小箭头来选择其他设备，来添加其他设备对应的事件。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_17_d.png" alt="查看用户日历1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_19_d.png" alt="查看用户日历2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_24_d.png" alt="查看用户日历3" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_20_d.png" alt="查看用户日历4" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_21_d.png" alt="查看用户日历5" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_22_d.png" alt="查看用户日历6" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_23_d.png" alt="查看用户日历7" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 工况反馈页签内容 -->
+                <div class="inner-tab-panel" id="condition-feedback">
+                    <div class="feature-card">
+                        <h3>设备工况反馈</h3>
+                        <p>您可以反馈设备工况信息，以便我们及时对数据进行修正和提供更精准的数据服务。</p>
+                        <ul class="feature-list">
+                            <li>您可以在“设备工况”下的“工况反馈”进行反馈。</li>
+                            <li>针对同一台设备，若需反馈多个问题，可以通过右上角新增来添加问题反馈。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_25_d.png" alt="查看工况反馈1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_26_d.png" alt="查看工况反馈2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_27_d.png" alt="查看工况反馈3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 设备手册页签内容 -->
+                <div class="inner-tab-panel" id="equipment-manual">
+                    <div class="feature-card">
+                        <h3>设备手册</h3>
+                        <p>您可以在“设备工况”下的“设备手册”查看设备的零部件图册、操作保养手册、质保手册等。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_28_d.png" alt="查看设备手册1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_29_d.png" alt="查看设备手册2" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_30_d.png" alt="查看设备手册3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- 其他功能页签内容 -->
+                <div class="inner-tab-panel" id="other-functions">
+                    <div class="feature-card">
+                        <h3>更多实用功能</h3>
+                        <p>提供其他实用功能，满足用户的多样化需求。</p>
+                        <ul class="feature-list">
+                            <li>您还可以在“设备工况”内的“更多功能”内查看“操作画像”、“位置分享”、“诊断报告”、“异常行为”等多种设备相关的参数数据。</li>
+                            <li>如果您有好的建议或其他特殊需求，请及时与我们联系(可在我的页面“我的”->“投诉建议”中提交)，您的需求是我们努力的方向。</li>
+                        </ul>
+                        <div class="image-gallery">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_31_d.png" alt="查看其他功能1" class="gallery-image">
+                            <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_32_d.png" alt="查看其他功能2" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 设置标签页切换功能
+        function setupTabs() {
+            // 外部页签切换
+            const outerTabButtons = document.querySelectorAll('.tab-navigation:not(.inner-tab-nav) .tab-button');
+            
+            outerTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有按钮的active类
+                    outerTabButtons.forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 获取目标标签页ID
+                    const targetTab = button.getAttribute('data-tab');
+                    // 移除所有标签页的active类
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    // 为目标标签页添加active类
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+                
+                // 添加触摸事件支持
+                button.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    // 触发点击事件
+                    this.click();
+                });
+            });
+            
+            // 内部页签切换
+            const innerTabButtons = document.querySelectorAll('.inner-tab-nav .tab-button');
+            
+            innerTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有按钮的active类
+                    innerTabButtons.forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 获取目标标签页ID
+                    const targetTab = button.getAttribute('data-tab');
+                    // 隐藏所有内部内容区域
+                    document.querySelectorAll('.inner-tab-panel').forEach(panel => {
+                        panel.style.display = 'none';
+                    });
+                    // 显示对应的内部内容区域
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.style.display = 'block';
+                    }
+                });
+                
+                // 添加触摸事件支持
+                button.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    // 触发点击事件
+                    this.click();
+                });
+            });
+        }
+
+        // 页面加载完成后设置标签页功能
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTabs();
+        });
+    </script>
+</body>
+</html>

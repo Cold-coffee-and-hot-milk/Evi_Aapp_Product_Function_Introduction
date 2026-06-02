@@ -1,0 +1,271 @@
+/* 主内容区域 */
+.main-content {
+    margin-top: 0;
+    padding: 150px 0 24px 0;
+}
+
+/* 修复移动端主内容顶部遮挡问题 */
+@media (max-width: 768px) {
+    .main-content {
+        padding-top: calc(150px + env(safe-area-inset-top, 0));
+        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0));
+    }
+}
+
+/* 左侧菜单栏 - 修复高度问题 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    /* 修复移动端浏览器兼容性问题 */
+    padding-top: 60px;
+    padding-bottom: 20px;
+}
+
+/* 修复移动端侧边栏内容显示 */
+@media (max-width: 768px) {
+    .sidebar {
+        /* 考虑移动端安全区域 */
+        width: 100%;
+        max-width: 200px;
+        padding-top: calc(60px + env(safe-area-inset-top, 0));
+        padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
+        height: 100vh;
+        /* 使用100dvh确保在移动设备上占据整个视口高度 */
+        height: 100dvh;
+        max-height: 100dvh;
+    }
+    
+    /* 调整移动端顶部导航栏 */
+    .mobile-header {
+        top: 0;
+        height: 60px;
+    }
+    
+    .header-container {
+        height: 60px;
+    }
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+/* 菜单遮罩层 */
+.menu-overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none;
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+/* 菜单项样式 */
+.menu-section {
+    margin-bottom: 0;
+}
+
+.menu-section-title {
+    padding: 18px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.menu-items {
+    padding: 8px 0;
+}
+
+.menu-item {
+    list-style: none;
+}
+
+.menu-item-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px 16px 32px;
+    color: #444;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border-radius: 0 24px 24px 0;
+    margin: 2px 8px;
+    letter-spacing: 0.3px;
+}
+
+.menu-item-link:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 0 2px 2px 0;
+    transition: all 0.3s ease;
+}
+
+.menu-item-link:hover {
+    background-color: #f0f7ff;
+    color: #1a6dfc;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.menu-item-link:hover:before {
+    height: 60%;
+}
+
+.menu-item-link.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    text-decoration: none;
+}
+
+.menu-item-link.active:before {
+    height: 60%;
+    background: white;
+}
+
+.menu-item-link .arrow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #999;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.menu-item.has-submenu.active .menu-item-link .arrow {
+    transform: rotate(90deg);
+    color: white;
+}
+
+.submenu-items {
+    display: none;
+    background-color: rgba(240, 247, 255, 0.5);
+}
+
+.menu-item.has-submenu.active .submenu-items {
+    display: block;
+}
+
+.submenu-item {
+    list-style: none;
+}
+
+.submenu-item-link {
+    display: block;
+    padding: 14px 24px 14px 56px;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 0 20px 20px 0;
+    margin: 2px 8px;
+    letter-spacing: 0.2px;
+}
+
+.submenu-item-link:hover {
+    background-color: #e1eeff;
+    color: #1a6dfc;
+    transform: translateX(4px);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.submenu-item-link.active {
+    background: #1a6dfc;
+    color: white;
+    transform: translateX(4px);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(26, 109, 252, 0.3);
+}
+
+/* 三级菜单样式 */
+.subsubmenu-items {
+    display: none;
+    background-color: rgba(225, 238, 255, 0.5);
+}
+
+.submenu-item.has-submenu.active .subsubmenu-items {
+    display: block;
+}
+
+.subsubmenu-item-link {
+    padding: 12px 24px 12px 72px !important;
+    font-size: 13px;
+    background: transparent !important;
+    color: #666 !important;
+    border-radius: 0 16px 16px 0 !important;
+    text-decoration: none !important; /* 移除下划线 */
+    margin: 2px 8px !important;
+    letter-spacing: 0.1px;
+    font-weight: 400 !important;
+    transition: all 0.3s ease !important;
+    display: block;
+    border-radius: 0 16px 16px 0;
+}
+
+.subsubmenu-item-link:hover {
+    background: #f0f7ff !important;
+    color: #1a6dfc !important;
+    transform: translateX(4px);
+    text-decoration: none !important; /* 移除下划线 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.subsubmenu-item-link.active {
+    background: #1a6dfc !important;
+    color: white !important;
+    text-decoration: none !important; /* 移除下划线 */
+    box-shadow: 0 4px 12px rgba(26, 109, 252, 0.3) !important;
+}
+
+/* 右侧内容区域 */
+.content-area {
+    width: 100%;
+    padding: 60px 0 0 0;
+    transition: margin-left 0.3s ease;
+}
+
+/* 页面内容区域 */
+.page-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}

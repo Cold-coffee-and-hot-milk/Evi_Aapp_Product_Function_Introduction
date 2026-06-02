@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>更多服务 - 易维讯</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 功能卡片 */
+        .feature-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 16px;
+            padding: 8%;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 标签页导航样式 */
+        .tab-navigation {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-button {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-button.active:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        /* 标签页内容样式 */
+        .tab-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+
+            .tab-navigation {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                -webkit-overflow-scrolling: touch;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: none;
+                margin-bottom: 12px;
+            }
+
+            .tab-button {
+                flex: 0 0 auto;
+                min-width: 100px;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
+
+            /* 隐藏滚动条 */
+            .tab-navigation::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-navigation {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-image {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+
+        /* 区块样式 */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="more-services-page">
+        <h1 class="page-title">更多服务</h1>
+        <div class="section">
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="my-orders">我的订单</button>
+                <button class="tab-button" data-tab="my-invoices">我的发票</button>
+                <button class="tab-button" data-tab="online-service">在线客服</button>
+                <button class="tab-button" data-tab="self-service">自助服务</button>
+                <button class="tab-button" data-tab="maintenance-code">保养码</button>
+                <button class="tab-button" data-tab="condition-feedback">工况反馈</button>
+                <button class="tab-button" data-tab="marketing-commitment">营销承诺</button>
+                <button class="tab-button" data-tab="coupons">优惠券</button>
+                <button class="tab-button" data-tab="data-subscription">数据订阅服务</button>
+            </div>
+            <div class="tab-content">
+                <div id="my-orders" class="tab-panel active">
+                    <div class="feature-card">
+                        <p>客户发起维修或者保养申请之后，可以在我的订单中查看并管理订单。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/orders_1.png" alt="我的订单1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/orders_2.png" alt="我的订单2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/orders_3.png" alt="我的订单3" class="gallery-image">
+                            <img src="../assets/images/service/more_services/orders_4.png" alt="我的订单4" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="my-invoices" class="tab-panel">
+                    <div class="feature-card">
+                        <p>客户可以在易维讯查询服务过程中产生费用发票信息。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/invoices_1.png" alt="我的发票1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/invoices_2.png" alt="我的发票2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/invoices_3.png" alt="我的发票3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="online-service" class="tab-panel">
+                    <div class="feature-card">
+                        <p>在线客服功能为用户提供实时的在线咨询服务，用户可以通过文字、语音、图片等方式与客服人员进行沟通。</p>
+                        <p>在线客服咨询结束后，可对本次服务进行评价或者反馈建议。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/online_service_1.png" alt="在线客服1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/online_service_2.png" alt="在线客服2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/online_service_3.png" alt="在线客服3" class="gallery-image">
+                            <img src="../assets/images/service/more_services/online_service_4.png" alt="在线客服4" class="gallery-image">
+                            <img src="../assets/images/service/more_services/online_service_5.png" alt="在线客服5" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="self-service" class="tab-panel">
+                    <div class="feature-card">
+                        <p>自助服务功能为用户在三一售后人员专业的指导下，利用自己空闲时间，在不影响设备工期的同时通过自己双手对爱机进行维护和保养，享受配件折扣的同时赚取佣金。</p>
+                        <p>用户首选需要在易维讯APP上完成自助服务的认证，认证审核通过后，即可开始自助服务。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/self_service_1.png" alt="自助服务1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_2.png" alt="自助服务2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_3.png" alt="自助服务3" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_4.png" alt="自助服务4" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_5.png" alt="自助服务5" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_6.png" alt="自助服务6" class="gallery-image">
+                            <img src="../assets/images/service/more_services/self_service_7.png" alt="自助服务7" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="maintenance-code" class="tab-panel">
+                    <div class="feature-card">
+                        <p>当设备临近保养节点的时候，设备驾驶室的中控显示屏上会弹出保养提示信息，客户可以发起保养订单请工程师消除保养提示，也可以使用服务页面的保养码功能，自行关联保养订单并消除中控显示屏的保养提示，建议客户按期联系三一官方服务进行保养。如未按时保养可能导致设备运行异常。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/maintenance_code_1.png" alt="保养码1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/maintenance_code_2.png" alt="保养码2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/maintenance_code_3.png" alt="保养码3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="condition-feedback" class="tab-panel">
+                    <div class="feature-card">
+                        <p>用户如果发现工况数据存在异常，可以通过使用“工况反馈”功能提交设备的工作状况和使用体验，帮助易维讯不断改进产品和服务。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/condition_feedback_1.png" alt="工况反馈1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/condition_feedback_2.png" alt="工况反馈2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/condition_feedback_3.png" alt="工况反馈3" class="gallery-image">
+                            <img src="../assets/images/service/more_services/condition_feedback_4.png" alt="工况反馈4" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="marketing-commitment" class="tab-panel">
+                    <div class="feature-card">
+                        <p>营销承诺是客户在购机的时候，代理商承诺给客户的一些优惠券、配件券等福利。</p>
+                        <p>用户可以通过营销承诺功能反馈购机时的营销承诺是否兑现</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/marketing_commitment_1.png" alt="营销承诺1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/marketing_commitment_2.png" alt="营销承诺2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/marketing_commitment_3.png" alt="营销承诺3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="coupons" class="tab-panel">
+                    <div class="feature-card">
+                        <p>优惠券是客户在购机的时候，代理商给到客户的代金券，客户可以在这里查看优惠券的基本信息和使用记录。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/coupons_1.png" alt="优惠券1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/coupons_2.png" alt="优惠券2" class="gallery-image">
+                        </div>
+                        <p>用户可以通过优惠券功能查看和管理自己的优惠券，了解优惠券的使用规则和有效期。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/coupons_3.png" alt="优惠券3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+                <div id="data-subscription" class="tab-panel">
+                    <div class="feature-card">
+                        <p>数据订阅服务目前是提供给一些特定的大客户，大客户可以在易维讯付费对数据进行订阅，易维讯平台将会把数据对接到大客户提供的平台。</p>
+                        <div class="image-gallery">
+                            <img src="../assets/images/service/more_services/data_subscription_1.png" alt="数据订阅服务1" class="gallery-image">
+                            <img src="../assets/images/service/more_services/data_subscription_2.png" alt="数据订阅服务2" class="gallery-image">
+                            <img src="../assets/images/service/more_services/data_subscription_3.png" alt="数据订阅服务3" class="gallery-image">
+                            <img src="../assets/images/service/more_services/data_subscription_4.png" alt="数据订阅服务4" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 设置标签页切换功能
+        function setupTabs() {
+            // 标签页切换功能
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // 移除所有按钮的active类
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    button.classList.add('active');
+                    
+                    // 获取目标标签页ID
+                    const targetTab = button.getAttribute('data-tab');
+                    // 移除所有标签页的active类
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    // 为目标标签页添加active类
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // 页面加载完成后设置标签页功能
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTabs();
+        });
+    </script>
+</body>
+</html>

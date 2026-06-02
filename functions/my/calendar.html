@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>日历 - Evi App</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 区块样式 */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* 日历导航 */
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #667eea;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .current-month {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* 日历网格 */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            font-weight: 600;
+            color: #666;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .calendar-day.today {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-day.other-month {
+            color: #999;
+        }
+
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #764ba2;
+        }
+
+        /* 事件列表 */
+        .event-list {
+            margin-top: 24px;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-date {
+            width: 60px;
+            text-align: center;
+            margin-right: 16px;
+        }
+
+        .event-day {
+            font-size: 24px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .event-month {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .event-content {
+            flex: 1;
+        }
+
+        .event-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .event-time {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 步骤样式 */
+        .step-container {
+            margin-bottom: 24px;
+        }
+
+        .step-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        /* 功能卡片样式 */
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 8%;
+            margin-top: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card p {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .feature-list {
+            list-style-type: disc;
+            margin-left: 24px;
+            line-height: 1.8;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .feature-list li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .calendar-day {
+                font-size: 14px;
+            }
+
+            .event-day {
+                font-size: 20px;
+            }
+
+            .event-title {
+                font-size: 14px;
+            }
+
+            .event-time {
+                font-size: 12px;
+            }
+
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">日历</h1>
+    <div class="section">       
+        <div class="feature-card">
+            <div class="step-container">
+                <p class="step-description">在“我的”页面，点击顶部“日历”按钮，进入日历页面。</p>
+                <div class="image-gallery">
+                    <img src="../assets/images/base/my/my_cal_1_d.png" alt="日历1" class="gallery-image">
+                    <img src="../assets/images/base/my/my_cal_d.png" alt="日历1" class="gallery-image">
+                </div>
+            </div>
+            <p>您可以通过日历功能为每台设备添加相关的重要事件。</p>
+            <ul class="feature-list">
+                <li>您可以在“用户日历”查看和管理设备相关重要事件，也可通过日历选择历史事件进行查看。</li>
+                <li>您可以通过点击“用户日历”下方设备编号右侧的小箭头来选择其他设备，来添加其他设备对应的事件。</li>
+            </ul>
+            <div class="image-gallery">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_19_d.png" alt="查看用户日历2" class="gallery-image">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_24_d.png" alt="查看用户日历3" class="gallery-image">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_20_d.png" alt="查看用户日历4" class="gallery-image">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_21_d.png" alt="查看用户日历5" class="gallery-image">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_22_d.png" alt="查看用户日历6" class="gallery-image">
+                <img src="../assets/images/common_functions/equipment_operating_conditions/eq_op_co_23_d.png" alt="查看用户日历7" class="gallery-image">
+            </div>
+      </div>
+
+    </div>
+</body>
+</html>

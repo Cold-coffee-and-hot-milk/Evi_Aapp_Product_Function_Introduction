@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>CSS参数可视化</title>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="css/style.css?v=20260225-1">
+    <link rel="stylesheet" href="css/layout.css?v=20260211">
+    <link rel="stylesheet" href="css/responsive.css?v=20260211">
+    <style>
+        /* CSS参数演示样式 */
+        .css-parameter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .parameter-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .parameter-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .parameter-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        .parameter-demo {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            position: relative;
+        }
+        
+        .parameter-code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            margin: 16px 0;
+            white-space: pre-wrap;
+        }
+        
+        .parameter-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin: 16px 0;
+        }
+        
+        /* 具体参数演示样式 */
+        .background-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+        }
+        
+        .backdrop-filter-demo {
+            background: url('https://picsum.photos/id/1015/800/400');
+            background-size: cover;
+            background-position: center;
+            padding: 40px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .backdrop-filter-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .border-radius-demo {
+            background: #667eea;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+        }
+        
+        .padding-demo {
+            background: #667eea;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .margin-bottom-demo {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .box-shadow-demo {
+            background: white;
+            color: #2c3e50;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .border-demo {
+            background: white;
+            color: #2c3e50;
+            padding: 40px;
+            text-align: center;
+            border: 4px solid #667eea;
+            border-radius: 8px;
+        }
+        
+        .transition-demo {
+            background: #667eea;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .transition-demo:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- 移动端顶部导航栏 -->
+    <header class="mobile-header">
+        <div class="header-container">
+            <div class="logo" id="homeBtn">
+                <img src="assets/images/eviapp_icon.png" alt="易维讯" class="logo-img">
+                <div class="logo-text">CSS参数可视化</div>
+            </div>
+            <div class="header-buttons">
+                <a href="index.html" class="nav-button">
+                    <span class="button-text">返回首页</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 右侧内容区域 -->
+    <main class="content-area">
+        <div class="page-container active">
+            <div class="page-content">
+                <div class="css-parameter-container">
+                    <h1 class="page-title">CSS参数可视化</h1>
+                    
+                    <!-- background 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">background</h2>
+                        <div class="parameter-description">
+                            background 属性用于设置元素的背景，包括颜色、图片、渐变等。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="background-demo">
+                                这是一个使用 linear-gradient 的背景效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.background-demo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+}
+                        </div>
+                    </div>
+
+                    <!-- backdrop-filter 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">backdrop-filter</h2>
+                        <div class="parameter-description">
+                            backdrop-filter 属性用于为元素后面的内容添加模糊效果，常用于创建毛玻璃效果。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="backdrop-filter-demo">
+                                <div class="backdrop-filter-content">
+                                    这是一个使用 backdrop-filter: blur(10px) 的毛玻璃效果
+                                </div>
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.backdrop-filter-content {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+                        </div>
+                    </div>
+
+                    <!-- border-radius 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">border-radius</h2>
+                        <div class="parameter-description">
+                            border-radius 属性用于设置元素的圆角，值越大，圆角效果越明显。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="border-radius-demo">
+                                这是一个使用 border-radius: 20px 的圆角效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.border-radius-demo {
+    background: #667eea;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 20px;
+}
+                        </div>
+                    </div>
+
+                    <!-- padding 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">padding</h2>
+                        <div class="parameter-description">
+                            padding 属性用于设置元素的内边距，控制元素内容与边框之间的距离。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="padding-demo">
+                                这是一个使用 padding: 30px 的内边距效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.padding-demo {
+    background: #667eea;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+}
+                        </div>
+                    </div>
+
+                    <!-- margin-bottom 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">margin-bottom</h2>
+                        <div class="parameter-description">
+                            margin-bottom 属性用于设置元素的下外边距，控制元素与下方元素之间的距离。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="margin-bottom-demo">
+                                这是一个使用 margin-bottom: 40px 的下外边距效果
+                            </div>
+                            <div style="background: #f0f0f0; padding: 20px; text-align: center; border-radius: 8px;">
+                                下方元素
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.margin-bottom-demo {
+    background: #667eea;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+                        </div>
+                    </div>
+
+                    <!-- box-shadow 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">box-shadow</h2>
+                        <div class="parameter-description">
+                            box-shadow 属性用于为元素添加阴影效果，增强元素的立体感。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="box-shadow-demo">
+                                这是一个使用 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) 的阴影效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.box-shadow-demo {
+    background: white;
+    color: #2c3e50;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+                        </div>
+                    </div>
+
+                    <!-- border 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">border</h2>
+                        <div class="parameter-description">
+                            border 属性用于设置元素的边框，包括宽度、样式和颜色。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="border-demo">
+                                这是一个使用 border: 4px solid #667eea 的边框效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.border-demo {
+    background: white;
+    color: #2c3e50;
+    padding: 40px;
+    text-align: center;
+    border: 4px solid #667eea;
+    border-radius: 8px;
+}
+                        </div>
+                    </div>
+
+                    <!-- transition 参数 -->
+                    <div class="parameter-card">
+                        <h2 class="parameter-title">transition</h2>
+                        <div class="parameter-description">
+                            transition 属性用于设置元素的过渡效果，使元素的变化更加平滑。
+                        </div>
+                        <div class="parameter-demo">
+                            <div class="transition-demo">
+                                鼠标悬停时会有平滑的过渡效果
+                            </div>
+                        </div>
+                        <div class="parameter-code">
+.transition-demo {
+    background: #667eea;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.transition-demo:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 引入外部JavaScript文件 -->
+    <script src="js/main.js?v=20260225-1"></script>
+    <script src="js/menu.js?v=20260211"></script>
+    <script src="js/utils.js?v=20260211"></script>
+</body>
+</html>

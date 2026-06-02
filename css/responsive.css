@@ -1,0 +1,283 @@
+/* 桌面端布局 - 左侧菜单常驻 */
+@media (min-width: 769px) {
+    .content-area {
+        margin-left: 280px;
+    }
+
+    .sidebar {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: none;
+    }
+
+    .header-buttons {
+        display: flex;
+    }
+}
+
+/* 移动端布局 */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .header-buttons {
+        display: flex !important;
+        gap: 8px;
+    }
+
+    /* 确保下拉菜单默认隐藏 */
+    .dropdown-menu {
+        display: none !important;
+    }
+
+    /* 下拉菜单展开时显示 */
+    .dropdown-menu.show {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* 只对直接子级nav-button应用样式，不包括下拉菜单中的按钮 */
+    .header-buttons > .dropdown-container > .nav-button {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: auto;
+        height: 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    /* 下拉菜单中的按钮样式 */
+    .dropdown-menu .nav-button {
+        width: 100% !important;
+        justify-content: center !important;
+        background: #f8f9fa !important;
+        color: #2c3e50 !important;
+        border-radius: 8px !important;
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+        height: auto !important;
+        min-height: 40px !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    /* 激活状态的下拉菜单按钮 */
+    .dropdown-menu .nav-button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+    }
+
+    .nav-button .button-text {
+        display: inline-block !important;
+    }
+
+    /* 菜单按钮的图标显示 */
+    .dropdown-toggle .button-icon {
+        display: inline-block !important;
+        margin-right: 4px !important;
+    }
+
+    /* 非菜单按钮的图标隐藏 */
+    .dropdown-menu .nav-button .button-icon {
+        display: none !important;
+    }
+
+    /* 优化移动端内容区域边距 */
+    .page-content {
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    /* 优化移动端英雄区域 */
+    .hero {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 40px 20px;
+    }
+
+    /* 优化移动端功能卡片 */
+    .section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .content-area {
+        margin-left: 0;
+    }
+
+    .hero {
+        padding: 40px 20px;
+        margin: 0 16px 20px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .section {
+        padding: 24px 20px;
+        margin: 0 16px 20px;
+    }
+
+    .section h2 {
+        font-size: 22px;
+    }
+
+    .page-content {
+        padding: 16px;
+    }
+
+    .page-title {
+        font-size: 26px;
+        text-align: center;
+    }
+
+    .feature-card {
+        padding: 20px;
+    }
+
+    .feature-card h3 {
+        font-size: 16px;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+    }
+
+    /* 移动端侧边栏优化 */
+    .sidebar {
+        width: 200px;
+    }
+
+    .menu-item-link {
+        padding: 12px 20px 12px 28px;
+        font-size: 13px;
+    }
+
+    .submenu-item-link {
+        padding: 10px 20px 10px 48px;
+        font-size: 12px;
+    }
+
+    .subsubmenu-item-link {
+        padding: 8px 20px 8px 64px !important;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0 12px;
+    }
+
+    .logo-text {
+        font-size: 14px;
+        max-width: calc(100vw - 120px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hero {
+        padding: 30px 16px;
+        margin: 0 12px 16px;
+        border-radius: 16px;
+    }
+
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .cta-button {
+        padding: 14px 28px;
+        font-size: 16px;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .section {
+        padding: 20px 16px;
+        margin: 0 12px 16px;
+        border-radius: 16px;
+    }
+
+    .section h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .feature-card {
+        padding: 16px;
+    }
+
+    .feature-card h3 {
+        font-size: 15px;
+    }
+
+    .feature-card p {
+        font-size: 13px;
+    }
+
+    .page-content {
+        padding: 12px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    /* 移动端菜单按钮优化 */
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
+
+    /* 移动端侧边栏优化 */
+    .sidebar {
+        width: 200px;
+    }
+
+    .menu-section-title {
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+
+    .menu-item-link {
+        padding: 12px 16px 12px 24px;
+    }
+
+    .submenu-item-link {
+        padding: 10px 16px 10px 44px;
+    }
+
+    .subsubmenu-item-link {
+        padding: 8px 16px 8px 60px !important;
+    }
+}
+
+/* 平板设备优化 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        width: 260px;
+    }
+
+    .content-area {
+        margin-left: 260px;
+    }
+
+    .section {
+        padding: 28px;
+    }
+}

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>二手机认证 - 易维讯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 16px;
+            padding: 8%;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-button {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #2c3e50;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-button.active:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+        }
+
+        .tab-content {
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            box-shadow: none;
+            border: none;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .step-card {
+            flex: 1 1 calc(50% - 8px);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-left: 4px solid #667eea;
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+
+        .highlight-box p {
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+
+            .tab-navigation {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 4px;
+                gap: 4px;
+                -webkit-overflow-scrolling: touch;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: none;
+                margin-bottom: 12px;
+            }
+
+            .tab-button {
+                flex: 0 0 auto;
+                min-width: 100px;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 8px 12px;
+                border-radius: 6px;
+            }
+
+            .tab-navigation::-webkit-scrollbar {
+                display: none;
+            }
+
+            .tab-navigation {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .step-card {
+                flex: 1 1 100%;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-image {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="used-machine-authentication-page">
+        <h1 class="page-title">二手机认证</h1>
+        <div class="section">
+            <div class="tab-description">
+                <h1 style="font-size: 18px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">二手机认证服务为用户提供专业的设备检测和认证服务，帮助用户了解设备的真实状况，保障交易安全。</h1>
+            </div>
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="apply-assessment">申请评估</button>
+                <button class="tab-button" data-tab="my-assessment">我的评估</button>
+            </div>
+            <div class="tab-content">
+                <div id="apply-assessment" class="tab-panel active">
+                    <div class="feature-card">
+                        <h3 style="font-size: 18px; font-weight: 600; color: #2c3e50; margin-bottom: 16px;">申请流程</h3>
+                        <p>易维讯服务页面，选择二手机认证模块，选择要评估的设备，点击申请评估按钮,选择服务工程师后提交</p>
+                        <div class="step-container">
+                            <div class="step-card">
+                                <div class="image-gallery">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_0.png" alt="设备维修服务" class="gallery-image">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_1.png" alt="设备维修服务" class="gallery-image">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_2.png" alt="设备维修服务" class="gallery-image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="my-assessment" class="tab-panel">
+                    <div class="feature-card">
+                        <p>在“我的评估”页面，您可以查看所有已提交的二手机认证申请记录，以及相关的检测报告。</p>
+                         <div class="step-card">
+                                <div class="image-gallery">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_3.png" alt="设备维修服务" class="gallery-image">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_4.png" alt="设备维修服务" class="gallery-image">
+                                    <img src="../assets/images/service/used_machine_auth/used_machine_5.png" alt="设备维修服务" class="gallery-image">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setupTabs() {
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const targetTab = button.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupTabs();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>签到 - Evi App</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 20px;
+        }
+
+        /* 页面标题 */
+        .page-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 区块样式 */
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 5%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* 签到区域 */
+        .checkin-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 0;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 24px;
+        }
+
+        .checkin-button {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .checkin-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .checkin-button.checked {
+            background: #4caf50;
+            cursor: not-allowed;
+        }
+
+        .checkin-button.checked:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkin-status {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .checkin-reward {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* 连续签到 */
+        .streak-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .streak-days {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .streak-label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* 签到日历 */
+        .checkin-calendar {
+            margin-top: 24px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .calendar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            padding: 8px 0;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day.checked {
+            background: #4caf50;
+            color: white;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #667eea;
+        }
+
+        .calendar-day.other-month {
+            color: #999;
+        }
+
+        /* 签到记录 */
+        .checkin-history {
+            margin-top: 32px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-date {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .history-status {
+            font-size: 14px;
+            color: #4caf50;
+            font-weight: 500;
+        }
+
+        /* 图片画廊样式 */
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .gallery-image {
+            flex: 1 1 calc(33.333% - 8px);
+            max-width: calc(33.333% - 8px);
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery-image:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 步骤样式 */
+        .step-container {
+            margin-bottom: 24px;
+        }
+
+        .step-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .checkin-button {
+                width: 140px;
+                height: 140px;
+                font-size: 18px;
+            }
+
+            .streak-days {
+                font-size: 20px;
+            }
+
+            .calendar-day {
+                font-size: 14px;
+            }
+
+            .history-date {
+                font-size: 14px;
+            }
+
+            .history-status {
+                font-size: 12px;
+            }
+
+            .gallery-image {
+                flex: 1 1 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">签到</h1>
+    
+    <div class="section">
+        <!-- 步骤1 -->
+        <div class="step-container">
+            <div class="feature-card">
+                <p class="step-description">在“我的”页面，点击“每日签到”按钮，进行签到同时进入签到详情页面。</p>
+                <div class="image-gallery">
+                    <img src="../assets/images/base/my/my_7_1_d.png" alt="签到1" class="gallery-image">
+                <img src="../assets/images/base/my/my_7_d.png" alt="签到2" class="gallery-image">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

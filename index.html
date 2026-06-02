@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>易维讯 - 智能化工程机械管理平台</title>
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="css/style.css?v=20260225-1">
+    <link rel="stylesheet" href="css/layout.css?v=20260211">
+    <link rel="stylesheet" href="css/responsive.css?v=20260211">
+</head>
+<body>
+    <!-- 移动端顶部导航栏 -->
+    <header class="mobile-header">
+        <div class="header-container">
+            <div class="logo" id="homeBtn">
+                <img src="assets/images/eviapp_icon.png" alt="易维讯" class="logo-img">
+                <div class="logo-text">易维讯用户操作指南</div>
+            </div>
+            <div class="header-buttons">
+                <!-- 新增下拉按钮 -->
+                <div class="dropdown-container">
+                    <button class="dropdown-toggle nav-button" id="dropdownToggle">
+                        <span class="button-icon">☰</span>
+                        <span class="button-text">菜单</span>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <button class="nav-button active" id="functionListBtn">
+                            <span class="button-text">功能列表</span>
+                        </button>
+                        <button class="nav-button" id="commonFunctionsBtn">
+                            <span class="button-text">常用功能</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 左侧菜单栏 -->
+    <aside class="sidebar" id="sidebar">
+        <!-- 功能列表菜单 -->
+        <div class="menu-section" id="functionListMenu">
+            <div class="menu-section-title">功能列表</div>
+
+            <ul class="menu-items">
+                <!-- 基础功能 -->
+                <li class="menu-item has-submenu">
+                    <a href="javascript:void(0);" class="menu-item-link">
+                        <span>基础功能</span>
+                        <span class="arrow">›</span>
+                    </a>
+                    <ul class="submenu-items">
+                        <li class="submenu-item" data-page="register">
+                            <a href="javascript:void(0);" class="submenu-item-link">注册</a>
+                        </li>
+                        <li class="submenu-item" data-page="username-password">
+                            <a href="javascript:void(0);" class="submenu-item-link">用户登录</a>
+                        </li>
+                        <li class="submenu-item" data-page="change-password">
+                            <a href="javascript:void(0);" class="submenu-item-link">修改密码</a>
+                        </li>
+                        <li class="submenu-item" data-page="account-cancel">
+                            <a href="javascript:void(0);" class="submenu-item-link">账号注销</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 主页 -->
+                <li class="menu-item has-submenu">
+                    <a href="javascript:void(0);" class="menu-item-link">
+                        <span>主页</span>
+                        <span class="arrow">›</span>
+                    </a>
+                    <ul class="submenu-items">
+                        <li class="submenu-item" data-page="scan">
+                            <a href="javascript:void(0);" class="submenu-item-link">扫码</a>
+                        </li>
+                        <li class="submenu-item" data-page="banner">
+                            <a href="javascript:void(0);" class="submenu-item-link">首页新闻</a>
+                        </li>
+                        <li class="submenu-item" data-page="order-status">
+                            <a href="javascript:void(0);" class="submenu-item-link">订单状态</a>
+                        </li>
+                        <li class="submenu-item" data-page="my-device">
+                            <a href="javascript:void(0);" class="submenu-item-link">我的设备</a>
+                        </li>
+                        <li class="submenu-item" data-page="communication-module">
+                            <a href="javascript:void(0);" class="submenu-item-link">E7(通讯模组)</a>
+                        </li>
+                        <li class="submenu-item" data-page="repair-request">
+                            <a href="javascript:void(0);" class="submenu-item-link">维修召请</a>
+                        </li>
+                        <li class="submenu-item" data-page="maintenance">
+                            <a href="javascript:void(0);" class="submenu-item-link">保养预约</a>
+                        </li>
+                        <li class="submenu-item" data-page="diamond-zone">
+                            <a href="javascript:void(0);" class="submenu-item-link">金刚区</a>
+                        </li>
+                        <li class="submenu-item" data-page="hot-events-news">
+                            <a href="javascript:void(0);" class="submenu-item-link">热门活动&论坛头条</a>
+                        </li>
+                        <li class="submenu-item" data-page="search-followed-devices">
+                            <a href="javascript:void(0);" class="submenu-item-link">搜索关注设备</a>
+                        </li>
+                        <li class="submenu-item" data-page="little-bee">
+                            <a href="javascript:void(0);" class="submenu-item-link">小蜜蜂</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 服务 -->
+                <li class="menu-item has-submenu">
+                    <a href="javascript:void(0);" class="menu-item-link">
+                        <span>服务</span>
+                        <span class="arrow">›</span>
+                    </a>
+                    <ul class="submenu-items">
+                        <li class="submenu-item" data-page="out-warranty">
+                            <a href="javascript:void(0);" class="submenu-item-link">保外服务收费标准</a>
+                        </li>
+                        <li class="submenu-item" data-page="repair-request-service">
+                            <a href="javascript:void(0);" class="submenu-item-link">维修召请</a>
+                        </li>
+                        <li class="submenu-item" data-page="maintenance-service">
+                            <a href="javascript:void(0);" class="submenu-item-link">保养预约</a>
+                        </li>
+                        <li class="submenu-item" data-page="need-parts">
+                            <a href="javascript:void(0);" class="submenu-item-link">我要配件</a>
+                        </li>
+                        <li class="submenu-item" data-page="complaint">
+                            <a href="javascript:void(0);" class="submenu-item-link">我要投诉</a>
+                        </li>
+                        <li class="submenu-item" data-page="non-sany-repair">
+                            <a href="javascript:void(0);" class="submenu-item-link">非三一设备维修</a>
+                        </li>
+                        <li class="submenu-item" data-page="used-machine-authentication">
+                            <a href="javascript:void(0);" class="submenu-item-link">二手机认证</a>
+                        </li>
+                        <li class="submenu-item" data-page="more-services">
+                            <a href="javascript:void(0);" class="submenu-item-link">更多服务</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- 我的 -->
+                <li class="menu-item has-submenu">
+                    <a href="javascript:void(0);" class="menu-item-link">
+                        <span>我的</span>
+                        <span class="arrow">›</span>
+                    </a>
+                    <ul class="submenu-items">
+                        <li class="submenu-item" data-page="profile">
+                            <a href="javascript:void(0);" class="submenu-item-link">个人资料</a>
+                        </li>
+                        <li class="submenu-item" data-page="calendar">
+                            <a href="javascript:void(0);" class="submenu-item-link">日历</a>
+                        </li>
+                        <li class="submenu-item" data-page="points">
+                            <a href="javascript:void(0);" class="submenu-item-link">积分</a>
+                        </li>
+                        <li class="submenu-item" data-page="checkin">
+                            <a href="javascript:void(0);" class="submenu-item-link">签到</a>
+                        </li>
+                        <li class="submenu-item has-submenu">
+                            <a href="javascript:void(0);" class="submenu-item-link">
+                                <span>常用功能</span>
+                                <span class="arrow">›</span>
+                            </a>
+                            <ul class="subsubmenu-items">
+                                <li class="subsubmenu-item" data-page="my-device-my">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">我的设备</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="device-transfer">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">设备转让</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="my-authorization">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">我的授权</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="my-address">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">我的地址</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="my-orders-my">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">我的订单</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="communication-module">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">E7(通讯模组)</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="self-service-my">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">自助服务</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="suggestions">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">投诉建议</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="work-order-approval">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">工单审批</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="maintenance-reminder">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">保养提醒</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="submenu-item has-submenu">
+                            <a href="javascript:void(0);" class="submenu-item-link">
+                                <span>更多功能</span>
+                                <span class="arrow">›</span>
+                            </a>
+                            <ul class="subsubmenu-items">
+                                <li class="subsubmenu-item" data-page="message-center">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">消息中心</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="my-bills">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">我的账单</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="parts-orders">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">配件订单</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="parts-orders-new">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">配件订单（新）</a>
+                                </li>
+                                <li class="subsubmenu-item" data-page="system-settings">
+                                    <a href="javascript:void(0);" class="subsubmenu-item-link" style="padding: 8px 20px 8px 50px; color: #666;">系统设置</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 常用功能菜单 -->
+        <div class="menu-section" id="commonFunctionsMenu" style="display: none;">
+            <div class="menu-section-title">常用功能</div>
+            <ul class="menu-items">
+                <li class="menu-item" data-page="equipment_operating_conditions">
+                    <a href="javascript:void(0);" class="menu-item-link" onclick="loadEquipmentPage()">设备工况</a>
+                </li>
+                <li class="menu-item" data-page="repair-request-common">
+                    <a href="javascript:void(0);" class="menu-item-link">维修召请</a>
+                </li>
+                <li class="menu-item" data-page="maintenance-common">
+                    <a href="javascript:void(0);" class="menu-item-link">保养预约</a>
+                </li>
+                <li class="menu-item" data-page="device-transfer-common">
+                    <a href="javascript:void(0);" class="menu-item-link">设备转让</a>
+                </li>
+                <li class="menu-item" data-page="my-authorization-common">
+                    <a href="javascript:void(0);" class="menu-item-link">我的授权</a>
+                </li>
+                <li class="menu-item" data-page="work-order-approval-common">
+                    <a href="javascript:void(0);" class="menu-item-link">工单审批</a>
+                </li>
+                </li>
+                <li class="menu-item" data-page="online-service-common">
+                    <a href="javascript:void(0);" class="menu-item-link">在线客服</a>
+                </li>
+                <li class="menu-item" data-page="data-subscription-common">
+                    <a href="javascript:void(0);" class="menu-item-link">数据订阅服务</a>
+                </li>
+                <li class="menu-item" data-page="maintenance-code-common">
+                    <a href="javascript:void(0);" class="menu-item-link">保养码</a>
+                </li>
+                <li class="menu-item" data-page="forum-common">
+                    <a href="javascript:void(0);" class="menu-item-link">论坛天地</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- 右侧内容区域 -->
+    <main class="content-area">
+        <!-- 产品概述 -->
+        <div id="overview" class="page-container active">
+            <div class="page-content">
+                <section class="hero">
+                    <h1>易维讯 - 智能化工程机械管理平台</h1>
+                    <p>一站式工程机械智能管理解决方案，集设备监控、运维服务、资源对接和社区交流于一体</p>
+                    <button class="cta-button" id="downloadBtn">立即下载体验</button>
+                </section>
+
+                <div class="features-container">
+                    <div class="section">
+                        <h2>全面的设备管理</h2>
+                        <div class="feature-card">
+                            <h3>实时监控设备工况</h3>
+                            <p>实时监控设备位置、工作时长、油耗、水温等运行参数，随时掌握设备状态。</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>设备全生命周期管理</h3>
+                            <p>从设备采购、使用到报废的全过程管理，延长设备使用寿命。</p>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>智能化服务流程</h2>
+                        <div class="feature-card">
+                            <h3>一键召请服务</h3>
+                            <p>故障报修、预约保养可一键创建服务单，并实时跟踪进度。</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>配件验伪</h3>
+                            <p>扫描配件二维码，验证是否为三一纯正配件，保障质量。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 引入外部JavaScript文件 -->
+    <script src="js/main.js?v=20260225-1"></script>
+    <script src="js/menu.js?v=20260211"></script>
+    <script src="js/utils.js?v=20260211"></script>
+</body>
+</html>
