@@ -5,55 +5,64 @@
     <title>页面未找到</title>
     <script type="text/javascript">
         function extractPageName(path) {
-            var pageName = null;
-            
-            if (path.includes('/functions/base/')) {
-                var baseMatch = path.match(/\/functions\/base\/([^\/\.]+)/);
-                if (baseMatch) {
-                    pageName = baseMatch[1];
-                    if (pageName === 'login') pageName = 'username-password';
-                    if (pageName === 'change_password') pageName = 'change-password';
-                    if (pageName === 'account_cancel') pageName = 'account-cancel';
-                }
-            } else if (path.includes('/common_functions/')) {
-                var commonMatch = path.match(/\/common_functions\/([^\/\.]+)/);
-                if (commonMatch) {
-                    pageName = commonMatch[1].replace(/_/g, '-');
-                }
-            } else if (path.includes('/functions/my/')) {
-                var myMatch = path.match(/\/functions\/my\/([^\/\.]+)/);
-                if (myMatch) {
-                    pageName = myMatch[1].replace(/_/g, '-');
-                }
-            } else if (path.includes('/functions/service/')) {
-                var serviceMatch = path.match(/\/functions\/service\/([^\/\.]+)/);
-                if (serviceMatch) {
-                    pageName = serviceMatch[1].replace(/_/g, '-');
-                }
-            } else if (path.includes('/functions/home/')) {
-                var homeMatch = path.match(/\/functions\/home\/([^\/\.]+)/);
-                if (homeMatch) {
-                    pageName = homeMatch[1].replace(/_/g, '-');
-                    if (pageName === 'bee') pageName = 'little-bee';
-                    if (pageName === 'diamond_zone') pageName = 'diamond-zone';
-                    if (pageName === 'hot_events_news') pageName = 'hot-events-news';
-                    if (pageName === 'search_followed_devices') pageName = 'search-followed-devices';
-                    if (pageName === 'my_device') pageName = 'my-device';
-                    if (pageName === 'order_status') pageName = 'order-status';
-                    if (pageName === 'repair_request') pageName = 'repair-request';
-                }
+        var pageName = null;
+        
+        if (path.includes('/functions/base/')) {
+            var baseMatch = path.match(/\/functions\/base\/([^\/\.]+)/);
+            if (baseMatch) {
+                pageName = baseMatch[1];
+                if (pageName === 'login') pageName = 'username-password';
+                if (pageName === 'change_password') pageName = 'change-password';
+                if (pageName === 'account_cancel') pageName = 'account-cancel';
             }
-            
-            return pageName;
+        } else if (path.includes('/common_functions/')) {
+            var commonMatch = path.match(/\/common_functions\/([^\/\.]+)/);
+            if (commonMatch) {
+                pageName = commonMatch[1].replace(/_/g, '-');
+            }
+        } else if (path.includes('/functions/my/')) {
+            var myMatch = path.match(/\/functions\/my\/([^\/\.]+)/);
+            if (myMatch) {
+                pageName = myMatch[1].replace(/_/g, '-');
+            }
+        } else if (path.includes('/functions/service/')) {
+            var serviceMatch = path.match(/\/functions\/service\/([^\/\.]+)/);
+            if (serviceMatch) {
+                pageName = serviceMatch[1].replace(/_/g, '-');
+            }
+        } else if (path.includes('/functions/home/')) {
+            var homeMatch = path.match(/\/functions\/home\/([^\/\.]+)/);
+            if (homeMatch) {
+                pageName = homeMatch[1].replace(/_/g, '-');
+                if (pageName === 'bee') pageName = 'little-bee';
+                if (pageName === 'diamond_zone') pageName = 'diamond-zone';
+                if (pageName === 'hot_events_news') pageName = 'hot-events-news';
+                if (pageName === 'search_followed_devices') pageName = 'search-followed-devices';
+                if (pageName === 'my_device') pageName = 'my-device';
+                if (pageName === 'order_status') pageName = 'order-status';
+                if (pageName === 'repair_request') pageName = 'repair-request';
+            }
+        } else {
+            // 处理直接路径格式：/项目名/页面名
+            var simpleMatch = path.match(/\/[^\/]+\/([^\/\?#]+)/);
+            if (simpleMatch) {
+                pageName = simpleMatch[1];
+            }
         }
+        
+        return pageName;
+    }
         
         var path = window.location.pathname;
         var pageName = extractPageName(path);
         
+        var currentPath = window.location.pathname;
+        var projectName = currentPath.split('/')[1] || 'Evi_App_Product_Function_Introduction';
+        
         if (pageName) {
-            window.location.href = '/Evi_App_Product_Function_Introduction/index.html#' + pageName;
+            window.location.href = '/' + projectName + '/index.html#' + pageName;
         } else {
-            window.location.href = '/Evi_App_Product_Function_Introduction/index.html';
+            window.location.href = '/' + projectName + '/index.html';
         }
     </script>
 </head>

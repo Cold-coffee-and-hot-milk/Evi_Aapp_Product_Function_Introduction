@@ -597,135 +597,142 @@ function loadPage(pageName) {
     } else {
         // http://或https://协议，使用绝对路径
         console.log('使用http协议，构建绝对路径');
-        const baseUrl = window.location.origin;
+        
+        // 获取当前页面的完整URL
+        const currentUrl = window.location.href;
+        // 获取index.html所在的目录路径
+        const basePath = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+        
+        console.log('基础路径:', basePath);
+        
         switch (pageName) {
             case 'register':
-                htmlPath = baseUrl + '/functions/base/register.html';
+                htmlPath = basePath + 'functions/base/register.html';
                 break;
             case 'username-password':
-                htmlPath = baseUrl + '/functions/base/login.html';
+                htmlPath = basePath + 'functions/base/login.html';
                 break;
             case 'change-password':
-                htmlPath = baseUrl + '/functions/base/change_password.html';
+                htmlPath = basePath + 'functions/base/change_password.html';
                 break;
             case 'account-cancel':
-                htmlPath = baseUrl + '/functions/base/account_cancel.html';
+                htmlPath = basePath + 'functions/base/account_cancel.html';
                 break;
             case 'equipment_operating_conditions':
-                htmlPath = baseUrl + '/common_functions/equipment_operating_conditions.html';
+                htmlPath = basePath + 'common_functions/equipment_operating_conditions.html';
                 break;
             case 'device-transfer':
             case 'device-transfer-common':
-                htmlPath = baseUrl + '/common_functions/equipment_transfer.html';
+                htmlPath = basePath + 'common_functions/equipment_transfer.html';
                 break;
             case 'work-order-approval':
             case 'work-order-approval-common':
-                htmlPath = baseUrl + '/common_functions/work_order_approval.html';
+                htmlPath = basePath + 'common_functions/work_order_approval.html';
                 break;
             case 'profile':
             case 'calendar':
             case 'points':
             case 'checkin':
-                htmlPath = baseUrl + `/functions/my/${pageName}.html`;
+                htmlPath = basePath + `functions/my/${pageName}.html`;
                 break;
             case 'suggestions':
-                htmlPath = baseUrl + '/functions/my/suggestions.html';
+                htmlPath = basePath + 'functions/my/suggestions.html';
                 break;
             case 'message-center':
-                htmlPath = baseUrl + '/functions/my/message_center.html';
+                htmlPath = basePath + 'functions/my/message_center.html';
                 break;
             case 'parts-orders':
-                htmlPath = baseUrl + '/functions/my/parts_orders.html';
+                htmlPath = basePath + 'functions/my/parts_orders.html';
                 break;
             case 'parts-orders-new':
-                htmlPath = baseUrl + '/functions/my/parts_orders_new.html';
+                htmlPath = basePath + 'functions/my/parts_orders_new.html';
                 break;
             case 'my-bills':
-                htmlPath = baseUrl + '/functions/my/my_bills.html';
+                htmlPath = basePath + 'functions/my/my_bills.html';
                 break;
             case 'system-settings':
-                htmlPath = baseUrl + '/functions/my/system_settings.html';
+                htmlPath = basePath + 'functions/my/system_settings.html';
                 break;
             case 'maintenance-reminder':
-                htmlPath = baseUrl + '/functions/my/maintenance_reminder.html';
+                htmlPath = basePath + 'functions/my/maintenance_reminder.html';
                 break;
             case 'my-authorization':
             case 'my-authorization-common':
-                htmlPath = baseUrl + '/functions/my/my_authorization.html';
+                htmlPath = basePath + 'functions/my/my_authorization.html';
                 break;
             case 'my-address':
-                htmlPath = baseUrl + '/functions/my/my_address.html';
+                htmlPath = basePath + 'functions/my/my_address.html';
                 break;
             case 'communication-module':
-                htmlPath = baseUrl + '/functions/my/communication_module.html';
+                htmlPath = basePath + 'functions/my/communication_module.html';
                 break;
             case 'out-warranty':
-                htmlPath = baseUrl + '/functions/service/out_warranty.html';
+                htmlPath = basePath + 'functions/service/out_warranty.html';
                 break;
             case 'more-services':
-                htmlPath = baseUrl + '/functions/service/more_services.html';
+                htmlPath = basePath + 'functions/service/more_services.html';
                 break;
             case 'need-parts':
-                htmlPath = baseUrl + '/functions/service/my_parts.html';
+                htmlPath = basePath + 'functions/service/my_parts.html';
                 break;
             case 'complaint':
-                htmlPath = baseUrl + '/functions/service/complaint.html';
+                htmlPath = basePath + 'functions/service/complaint.html';
                 break;
             case 'non-sany-repair':
-                htmlPath = baseUrl + '/functions/service/non_sany_repair.html';
+                htmlPath = basePath + 'functions/service/non_sany_repair.html';
                 break;
             case 'used-machine-authentication':
-                htmlPath = baseUrl + '/functions/service/used_machine_authentication.html';
+                htmlPath = basePath + 'functions/service/used_machine_authentication.html';
                 break;
             case 'scan':
-                htmlPath = baseUrl + '/functions/home/scan.html';
+                htmlPath = basePath + 'functions/home/scan.html';
                 break;
             case 'banner':
-                htmlPath = baseUrl + '/functions/home/banner.html';
+                htmlPath = basePath + 'functions/home/banner.html';
                 break;
             case 'order-status':
-                htmlPath = baseUrl + '/functions/home/order_status.html';
+                htmlPath = basePath + 'functions/home/order_status.html';
                 break;
             case 'diamond-zone':
-                htmlPath = baseUrl + '/functions/home/diamond_zone.html';
+                htmlPath = basePath + 'functions/home/diamond_zone.html';
                 break;
             case 'my-device':
             case 'my-device-my':
-                htmlPath = baseUrl + '/functions/home/my_device.html';
+                htmlPath = basePath + 'functions/home/my_device.html';
                 break;
             case 'hot-events-news':
-                htmlPath = baseUrl + '/functions/home/hot_events_news.html';
+                htmlPath = basePath + 'functions/home/hot_events_news.html';
                 break;
             case 'search-followed-devices':
-                htmlPath = baseUrl + '/functions/home/search_followed_devices.html';
+                htmlPath = basePath + 'functions/home/search_followed_devices.html';
                 break;
             case 'little-bee':
-                htmlPath = baseUrl + '/functions/home/bee.html';
+                htmlPath = basePath + 'functions/home/bee.html';
                 break;
             case 'repair-request':
             case 'repair-request-service':
             case 'repair-request-common':
-                htmlPath = baseUrl + '/functions/home/repair_request.html';
+                htmlPath = basePath + 'functions/home/repair_request.html';
                 break;
             case 'maintenance':
             case 'maintenance-service':
             case 'maintenance-common':
-                htmlPath = baseUrl + '/functions/home/maintenance.html';
+                htmlPath = basePath + 'functions/home/maintenance.html';
                 break;
             case 'online-service-common':
             case 'maintenance-code-common':
             case 'data-subscription-common':
-                htmlPath = baseUrl + '/functions/service/more_services.html';
+                htmlPath = basePath + 'functions/service/more_services.html';
                 break;
             case 'forum-common':
-                htmlPath = baseUrl + '/functions/home/diamond_zone.html';
+                htmlPath = basePath + 'functions/home/diamond_zone.html';
                 break;
             case 'my-orders-my':
             case 'self-service-my':
-                htmlPath = baseUrl + '/functions/service/more_services.html';
+                htmlPath = basePath + 'functions/service/more_services.html';
                 break;
             default:
-                htmlPath = baseUrl + `/functions/base/${pageName}.html`;
+                htmlPath = basePath + `functions/base/${pageName}.html`;
                 break;
         }
     }
