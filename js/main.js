@@ -831,6 +831,14 @@ function loadPage(pageName) {
                             }
                         }, 100);
                     }
+                    
+                    setTimeout(() => {
+                        applyLazyLoad();
+                    }, 150);
+                } else {
+                    setTimeout(() => {
+                        applyLazyLoad();
+                    }, 150);
                 }
             } else {
                 console.error('未找到内容区域');
