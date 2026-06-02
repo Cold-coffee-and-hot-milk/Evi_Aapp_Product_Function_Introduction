@@ -311,5 +311,14 @@
     <script src="js/main.js?v=20260225-1"></script>
     <script src="js/menu.js?v=20260211"></script>
     <script src="js/utils.js?v=20260211"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var hash = window.location.hash.substring(1);
+            if (hash) {
+                loadPage(hash);
+            }
+        });
+    </script>
 </body>
 </html>

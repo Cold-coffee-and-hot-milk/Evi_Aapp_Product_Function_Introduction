@@ -14,8 +14,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置功能导航
     setupFeatureNavigation();
 
+    // 设置hash路由处理
+    setupHashRouting();
+
     console.log('页面初始化完成');
 });
+
+function setupHashRouting() {
+    // 监听hash变化
+    window.addEventListener('hashchange', function() {
+        handleHashChange();
+    });
+
+    // 页面加载时检查hash
+    handleHashChange();
+}
+
+function handleHashChange() {
+    var hash = window.location.hash.substring(1); // 去掉#
+    if (hash) {
+        console.log('检测到hash变化:', hash);
+        loadPage(hash);
+    }
+}
 
 // 设置移动端菜单
 function setupMobileMenu() {
@@ -177,8 +198,8 @@ function setupFeatureNavigation() {
             const pageName = menuItem.getAttribute('data-page');
             console.log('菜单项点击，pageName:', pageName);
             if (pageName) {
-                console.log('调用loadPage函数，pageName:', pageName);
-                loadPage(pageName);
+                console.log('更新URL hash:', pageName);
+                window.location.hash = pageName;
                 closeMenu();
                 return;
             } else {

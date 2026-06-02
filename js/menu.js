@@ -63,8 +63,8 @@ function setupMenuInteractions() {
             else {
                 const pageName = menuItem.getAttribute('data-page');
                 if (pageName) {
-                    // 直接使用loadPage函数加载页面，包括设备工况页面
-                    loadPage(pageName);
+                    // 使用hash路由加载页面
+                    window.location.hash = pageName;
                     
                     // 在移动端关闭菜单
                     closeMenu();
